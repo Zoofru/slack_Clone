@@ -2,6 +2,10 @@ import {Button, InputGroup, Form} from 'react-bootstrap'
 
 const SendMessageInput = () => {
 
+    const handleMessageSubmit = () => {
+        console.log('hi')
+    }
+
     const Styles = {
         input: {
             width: '50%'
@@ -20,7 +24,7 @@ const SendMessageInput = () => {
                     aria-label="user message"
                     aria-describedby="basic-addon2"
                 />
-                <Button variant="outline-secondary" id="send">
+                <Button variant="outline-secondary" id="send" onClick={handleMessageSubmit}>
                     Send
                 </Button>
             </InputGroup>

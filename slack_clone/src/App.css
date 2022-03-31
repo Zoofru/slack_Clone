@@ -1,6 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,200&family=Roboto:ital,wght@0,300;1,100&display=swap');
+
 .App {
   text-align: center;
   display: flex;
+  font-family: 'Montserrat', sans-serif;
+  font-family: 'Roboto', sans-serif;
+}
+
+.settingsCog:hover, .account:hover {
+  cursor: pointer;
 }
 
 .navItem:hover {
@@ -34,4 +42,18 @@
   height: 100vh;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  padding-top: 5%;
+}
+
+.navBar-items {
+  height: 90%;
+}
+
+.navBar-account {
+  height: 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 .5vw;
 }
