@@ -1,9 +1,12 @@
 import {Button, InputGroup, Form} from 'react-bootstrap'
+import axios from 'axios'
 
 const SendMessageInput = () => {
 
-    const handleMessageSubmit = () => {
+    const handleMessageSubmit = async () => {
         console.log('hi')
+        const res = await axios.get('http://localhost:4000/user/test')
+        console.log(res);
     }
 
     const Styles = {
