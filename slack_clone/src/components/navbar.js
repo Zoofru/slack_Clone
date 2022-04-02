@@ -1,11 +1,15 @@
 import { useState } from "react"
 import NavItem from "./navitem"
 import { Modal, Button } from 'react-bootstrap'
+import axios from 'axios'
 
 const NavBar = () => {
     const navItems = ['Home', 'Login']
     const [loggedIn, setLoggedIn] = useState(false)
     const [modalOpen, setOpenModal] = useState(false)
+    const [showCreateAccount, SetShowCreateAccount] = useState(false)
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
 
     const Styles = {
         icons: {
@@ -16,11 +20,35 @@ const NavBar = () => {
         },
         passwordInputSpacing: {
             marginTop: '2vh'
+        },
+        marginTop: {
+            marginTop: '2vh',
+            marginBottom: '0'
         }
     }
 
     const openLoginModal = () => setOpenModal(true)
-    const closeLoginModal = () => setOpenModal(false)
+    const closeModal = () => setOpenModal(false)
+    const createAccountSwitch = () => {
+        if(showCreateAccount) {
+            SetShowCreateAccount(false)
+        } else {
+            SetShowCreateAccount(true)
+        }
+    }
+
+    const handleLogin = () => {
+        closeModal()
+        //Login
+        console.log(username)
+    }
+
+    const handleCreateAccount = async () => {
+        console.log(username);
+        closeModal()
+        //Create Account
+        // const res = await axios.post("localhost:3000/user/create")
+    }
 
     return(
         <div className="navBar">
@@ -44,28 +72,39 @@ const NavBar = () => {
                 </div>
             </div>
 
-            <Modal show={modalOpen} onHide={closeLoginModal}>
+            <Modal show={modalOpen} onHide={closeModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Login</Modal.Title>
+                    { showCreateAccount ? <Modal.Title>Create Account</Modal.Title> : <Modal.Title>Login</Modal.Title> }
                 </Modal.Header>
                 <Modal.Body>
-                <div class="form-group">
+                <div className="form-group">
                     <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" aria-describedby="usernameInput" placeholder="Enter Desired Username"></input>
+                    <input type="text" className="form-control" id="username" aria-describedby="usernameInput" placeholder="Enter Username" onChange={e => setUsername(e.target.value)}></input>
                 </div>
-                <div class="form-group" style={Styles.passwordInputSpacing}>
+                <div className="form-group" style={Styles.passwordInputSpacing}>
                     <label for="password">Password</label>
-                    <input type="text" class="form-control" id="password" aria-describedby="passwordInput" placeholder="Enter Desired Password"></input>
-                    <small id="passwordInput" class="form-text text-muted">Password must be atleast 8 characters.</small>
+                    <input type="text" className="form-control" id="password" aria-describedby="passwordInput" placeholder="Enter Password" onChange={e => setPassword(e.target.value)}></input>
+
+                    { showCreateAccount ? <small id="passwordInput" className="form-text text-muted">Password must be atleast 8 characters.</small> : null }
+                    
+                    {showCreateAccount ? <p className="noAccount-Login" style={Styles.marginTop}>Already have an account? <span className="link" onClick={createAccountSwitch}>Login.</span></p> : 
+                    <p className="noAccount-Login" style={Styles.marginTop}>Dont have an account? <span className="link" onClick={createAccountSwitch}>Sign up.</span></p> }
                 </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={closeLoginModal}>
+                    <Button variant="secondary" onClick={closeModal}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={closeLoginModal}>
-                        Submit
-                    </Button>
+                    
+                    {showCreateAccount ? 
+                        <Button variant="primary" onClick={handleCreateAccount}>
+                            Create
+                        </Button>
+                    :
+                        <Button variant="primary" onClick={handleLogin}>
+                            Login
+                        </Button>
+                    }
                 </Modal.Footer>
             </Modal>
         </div>

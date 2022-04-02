@@ -50,6 +50,15 @@
   height: 90%;
 }
 
+.link {
+  text-decoration: underline;
+  color: blue;
+}
+
+.link:hover {
+  cursor: pointer;
+}
+
 .navBar-account {
   height: 10%;
   display: flex;

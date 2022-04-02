@@ -1,11 +1,13 @@
 import {Button, InputGroup, Form} from 'react-bootstrap'
 import axios from 'axios'
+import { io } from "socket.io-client"
 
 const SendMessageInput = () => {
-
+    const socket = io.apply('ws://localhost:3000')
+    socket.emit("hello from client", 5, "6", { 7: Uint8Array.from([8]) });
     const handleMessageSubmit = async () => {
         console.log('hi')
-        const res = await axios.get('http://localhost:4000/user/test')
+        const res = await axios.get('http://localhost:3000/user/test')
         console.log(res);
     }
 
