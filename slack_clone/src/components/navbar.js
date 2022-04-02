@@ -40,14 +40,19 @@ const NavBar = () => {
     const handleLogin = () => {
         closeModal()
         //Login
-        console.log(username)
+        setUsername("")
+        setPassword("")
     }
 
     const handleCreateAccount = async () => {
-        console.log(username);
+        const res = await axios.post("http://localhost:4000/user/create", {
+            usern: username,
+            passw: password
+        })
+        console.log(res)
+        setUsername("")
+        setPassword("")
         closeModal()
-        //Create Account
-        // const res = await axios.post("localhost:3000/user/create")
     }
 
     return(
@@ -83,7 +88,7 @@ const NavBar = () => {
                 </div>
                 <div className="form-group" style={Styles.passwordInputSpacing}>
                     <label for="password">Password</label>
-                    <input type="text" className="form-control" id="password" aria-describedby="passwordInput" placeholder="Enter Password" onChange={e => setPassword(e.target.value)}></input>
+                    <input type="password" className="form-control" id="password" aria-describedby="passwordInput" placeholder="Enter Password" onChange={e => setPassword(e.target.value)}></input>
 
                     { showCreateAccount ? <small id="passwordInput" className="form-text text-muted">Password must be atleast 8 characters.</small> : null }
                     
