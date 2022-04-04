@@ -1,7 +1,9 @@
-import { useState } from "react"
+import { useState, useContext } from "react"
 import NavItem from "./navitem"
 import { Modal, Button } from 'react-bootstrap'
 import axios from 'axios'
+import {io} from 'socket.io-client'
+import { UserContext } from "../userContext"
 
 const NavBar = () => {
     const navItems = ['Home', 'Login']
@@ -10,6 +12,14 @@ const NavBar = () => {
     const [showCreateAccount, SetShowCreateAccount] = useState(false)
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const {user, setUser} = useContext(UserContext)
+
+    const socket = io('http://localhost:8080')
+    socket.on('connect', () => {
+        // console.log(`Welcome ${socket.id}`)
+    })
+
+    // socket.emit('custom-event', 10, 'hi', {test: 'tube'})
 
     const Styles = {
         icons: {
@@ -38,12 +48,12 @@ const NavBar = () => {
     }
 
     const handleLogin = async () => {
-        const res = await axios.post("http://localhost:4000/user/create", {
+        const res = await axios.post("http://localhost:4000/user/login", {
             usern: username.toLowerCase(),
             passw: password
         })
 
-        console.log(res)
+        setUser(res.data.user)
         setUsername("")
         setPassword("")
         closeModal()
@@ -55,7 +65,6 @@ const NavBar = () => {
             passw: password
         })
         
-        console.log(res)
         setUsername("")
         setPassword("")
         closeModal()
@@ -82,6 +91,7 @@ const NavBar = () => {
                     </svg>
                 </div>
             </div>
+
 
             <Modal show={modalOpen} onHide={closeModal}>
                 <Modal.Header closeButton>
