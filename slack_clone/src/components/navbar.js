@@ -37,18 +37,24 @@ const NavBar = () => {
         }
     }
 
-    const handleLogin = () => {
-        closeModal()
-        //Login
-        setUsername("")
-        setPassword("")
-    }
-
-    const handleCreateAccount = async () => {
+    const handleLogin = async () => {
         const res = await axios.post("http://localhost:4000/user/create", {
-            usern: username,
+            usern: username.toLowerCase(),
             passw: password
         })
+
+        console.log(res)
+        setUsername("")
+        setPassword("")
+        closeModal()
+    }
+    
+    const handleCreateAccount = async () => {
+        const res = await axios.post("http://localhost:4000/user/create", {
+            usern: username.toLowerCase(),
+            passw: password
+        })
+        
         console.log(res)
         setUsername("")
         setPassword("")
