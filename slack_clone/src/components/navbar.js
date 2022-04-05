@@ -72,6 +72,7 @@ const NavBar = () => {
 
     return(
         <div className="navBar">
+            { user ? <p>{user.username}</p> : null}
             <div className="navBar-items">
                 {navItems.map((item, i) => (
                     <NavItem title={item} key={i}></NavItem>
@@ -99,11 +100,11 @@ const NavBar = () => {
                 </Modal.Header>
                 <Modal.Body>
                 <div className="form-group">
-                    <label for="username">Username</label>
+                    <label htmlFor="username">Username</label>
                     <input type="text" className="form-control" id="username" aria-describedby="usernameInput" placeholder="Enter Username" onChange={e => setUsername(e.target.value)}></input>
                 </div>
                 <div className="form-group" style={Styles.passwordInputSpacing}>
-                    <label for="password">Password</label>
+                    <label htmlFor="password">Password</label>
                     <input type="password" className="form-control" id="password" aria-describedby="passwordInput" placeholder="Enter Password" onChange={e => setPassword(e.target.value)}></input>
 
                     { showCreateAccount ? <small id="passwordInput" className="form-text text-muted">Password must be atleast 8 characters.</small> : null }

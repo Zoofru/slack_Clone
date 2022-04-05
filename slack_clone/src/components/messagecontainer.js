@@ -1,19 +1,32 @@
 import SendMessageInput from "./sendmessageinput"
 import axios from 'axios'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
-const MessageContainer = () => {
+const MessageContainer = props => {
     const [messages, setMessages] = useState([])
 
-    const getAllMessages = async () => {
-        const res = await axios.get('http://localhost:4000/message/getAll')
-        console.log(res)
-    }
+    useEffect(() => {
+        async function getAllMessages() {
+            const res = await axios.post('http://localhost:4000/message/getAll', {
+                room: props.roomid
+            })
+            setMessages(res.data)
+        }
+        getAllMessages()
+        console.log(messages)
+    }, [])
 
     return( 
         <div className="messageContainer">
-            <div className="messages">Messages</div>
-            <SendMessageInput></SendMessageInput>
+            <div className="messages">
+                {messages.map((msg, i) => (
+                    <div key={i}>
+                        <p>{msg.username}</p>
+                        <p >{msg.text}</p>
+                    </div>
+                ))}
+            </div>
+            <SendMessageInput roomid={props.roomid}></SendMessageInput>
         </div>
     )
 }
