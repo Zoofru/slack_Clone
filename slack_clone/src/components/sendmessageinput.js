@@ -6,9 +6,7 @@ const SendMessageInput = () => {
     const socket = io.apply('ws://localhost:3000')
     socket.emit("hello from client", 5, "6", { 7: Uint8Array.from([8]) });
     const handleMessageSubmit = async () => {
-        console.log('hi')
         const res = await axios.get('http://localhost:4000/user/test')
-        console.log(res);
     }
 
     const Styles = {
