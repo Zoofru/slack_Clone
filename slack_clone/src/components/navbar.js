@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react"
+
+import { useState, useContext } from "react"
 import NavItem from "./navitem"
 import { Modal, Button } from 'react-bootstrap'
 import axios from 'axios'
+import {io} from 'socket.io-client'
+import { UserContext } from "../userContext"
 
 const NavBar = () => {
     const navItems = ['Home', 'Login']
@@ -10,6 +13,14 @@ const NavBar = () => {
     const [showCreateAccount, SetShowCreateAccount] = useState(false)
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const {user, setUser} = useContext(UserContext)
+
+    const socket = io('http://localhost:8080')
+    socket.on('connect', () => {
+        // console.log(`Welcome ${socket.id}`)
+    })
+
+    // socket.emit('custom-event', 10, 'hi', {test: 'tube'})
 
     const Styles = {
         icons: {
@@ -38,11 +49,12 @@ const NavBar = () => {
     }
 
     const handleLogin = async () => {
-        const res = await axios.post("http://localhost:4000/user/create", {
+        const res = await axios.post("http://localhost:4000/user/login", {
             usern: username.toLowerCase(),
             passw: password
         })
 
+        setUser(res.data.user)
         console.log(res)
         if(res.data.user) {
             localStorage.setItem('user', 'in');
@@ -59,7 +71,6 @@ const NavBar = () => {
             passw: password
         })
         
-        console.log(res)
         setUsername("")
         setPassword("")
         closeModal()
@@ -75,6 +86,7 @@ const NavBar = () => {
 
     return(
         <div className="navBar">
+            { user ? <p>{user.username}</p> : null}
             <div className="navBar-items">
                 {navItems.map((item, i) => (
                     <NavItem title={item} key={i}></NavItem>
@@ -95,17 +107,18 @@ const NavBar = () => {
                 </div>
             </div>
 
+
             <Modal show={modalOpen} onHide={closeModal}>
                 <Modal.Header closeButton>
                     { showCreateAccount ? <Modal.Title>Create Account</Modal.Title> : <Modal.Title>Login</Modal.Title> }
                 </Modal.Header>
                 <Modal.Body>
                 <div className="form-group">
-                    <label for="username">Username</label>
+                    <label htmlFor="username">Username</label>
                     <input type="text" className="form-control" id="username" aria-describedby="usernameInput" placeholder="Enter Username" onChange={e => setUsername(e.target.value)}></input>
                 </div>
                 <div className="form-group" style={Styles.passwordInputSpacing}>
-                    <label for="password">Password</label>
+                    <label htmlFor="password">Password</label>
                     <input type="password" className="form-control" id="password" aria-describedby="passwordInput" placeholder="Enter Password" onChange={e => setPassword(e.target.value)}></input>
 
                     { showCreateAccount ? <small id="passwordInput" className="form-text text-muted">Password must be atleast 8 characters.</small> : null }

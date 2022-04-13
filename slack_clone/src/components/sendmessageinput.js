@@ -1,12 +1,21 @@
 import {Button, InputGroup, Form} from 'react-bootstrap'
 import axios from 'axios'
-import { io } from "socket.io-client"
+import { useContext, useState } from 'react'
+import { UserContext } from '../userContext'
 
-const SendMessageInput = () => {
-    const socket = io.apply('ws://localhost:3000')
-    socket.emit("hello from client", 5, "6", { 7: Uint8Array.from([8]) });
+const SendMessageInput = props => {
+    const [messageValue, setMessageValue] = useState('')
+    const { user } = useContext(UserContext)
+    
     const handleMessageSubmit = async () => {
-        const res = await axios.get('http://localhost:4000/user/test')
+        const res = await axios.post('http://localhost:4000/message/new', {
+            message: messageValue,
+            user: user.username,
+            roomid: props.roomid
+        })
+        console.log(res);
+
+        setMessageValue('')
     }
 
     const Styles = {
@@ -26,6 +35,7 @@ const SendMessageInput = () => {
                     placeholder="Type something..."
                     aria-label="user message"
                     aria-describedby="basic-addon2"
+                    onChange={e => {setMessageValue(e.target.value)}}
                 />
                 <Button variant="outline-secondary" id="send" onClick={handleMessageSubmit}>
                     Send
