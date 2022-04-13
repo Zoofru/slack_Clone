@@ -54,10 +54,10 @@ const NavBar = () => {
             passw: password
         })
 
-        setUser(res.data.user)
         if(res.data.user) {
             localStorage.setItem('user', 'in');
             setLoggedIn(true)
+            setUser(res.data.user)
         }
         setUsername("")
         setPassword("")
@@ -85,9 +85,12 @@ const NavBar = () => {
 
     return(
         <div className="navBar">
-            { user ? <p>{user.username}</p> : null}
+            { user && loggedIn || localStorage.getItem("user") ? <p>{user.username}</p> : null}
             <div className="navBar-items">
                 {navItems.map((item, i) => (
+                    loggedIn && item.title === "Login" ? 
+                    <NavItem title={"Logout"}></NavItem>
+                    :
                     <NavItem title={item} key={i}></NavItem>
                 ))}
             </div>
