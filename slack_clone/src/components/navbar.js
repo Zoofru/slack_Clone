@@ -93,7 +93,7 @@ const NavBar = () => {
             { user ? <p>{user.username}</p> : null}
             <div className="navBar-items">
                 {navItems.map((item, i) => (
-                    loggedIn && item.title === "Login" ? 
+                    user && item === "Login" ? 
                     <NavItem title={"Logout"}></NavItem>
                     :
                     <NavItem title={item} key={i}></NavItem>
