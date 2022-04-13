@@ -1,3 +1,4 @@
+
 import { useState, useContext } from "react"
 import NavItem from "./navitem"
 import { Modal, Button } from 'react-bootstrap'
@@ -54,6 +55,11 @@ const NavBar = () => {
         })
 
         setUser(res.data.user)
+        console.log(res)
+        if(res.data.user) {
+            localStorage.setItem('user', 'in');
+            setLoggedIn(true)
+        }
         setUsername("")
         setPassword("")
         closeModal()
@@ -69,6 +75,14 @@ const NavBar = () => {
         setPassword("")
         closeModal()
     }
+
+    useEffect(() => {
+        if(localStorage.getItem('user')) {
+            setLoggedIn(true)
+        } else {
+            setLoggedIn(false)
+        }
+    }, [])
 
     return(
         <div className="navBar">
