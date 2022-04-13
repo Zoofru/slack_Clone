@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import NavItem from "./navitem"
 import { Modal, Button } from 'react-bootstrap'
 import axios from 'axios'
+import { useContext } from "react"
 
 const NavBar = () => {
     const navItems = ['Home', 'Login']
