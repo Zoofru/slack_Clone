@@ -1,5 +1,5 @@
 
-import { useState, useContext } from "react"
+import { useState, useContext, useEffect } from "react"
 import NavItem from "./navitem"
 import { Modal, Button } from 'react-bootstrap'
 import axios from 'axios'
@@ -55,7 +55,7 @@ const NavBar = () => {
         })
 
         if(res.data.user) {
-            localStorage.setItem('user', 'in');
+            localStorage.setItem('user', res.data.user.id);
             setLoggedIn(true)
             setUser(res.data.user)
         }
@@ -76,7 +76,12 @@ const NavBar = () => {
     }
 
     useEffect(() => {
+        async function getUser() {
+            const res = await axios.get(`http://localhost:4000/user/${localStorage.getItem('user')}`)
+            setUser(res.data.user)
+        }
         if(localStorage.getItem('user')) {
+            getUser()
             setLoggedIn(true)
         } else {
             setLoggedIn(false)
@@ -85,7 +90,7 @@ const NavBar = () => {
 
     return(
         <div className="navBar">
-            { user && loggedIn || localStorage.getItem("user") ? <p>{user.username}</p> : null}
+            { user ? <p>{user.username}</p> : null}
             <div className="navBar-items">
                 {navItems.map((item, i) => (
                     loggedIn && item.title === "Login" ? 
