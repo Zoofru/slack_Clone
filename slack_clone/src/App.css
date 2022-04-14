@@ -25,6 +25,11 @@
   border-left: 5px solid black;
   display: flex;
   flex-direction: column;
+  padding: 2% 0;
+}
+
+.messages {
+  height: 100vh;
 }
 
 .placeholder-messages {

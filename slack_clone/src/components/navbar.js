@@ -65,7 +65,7 @@ const NavBar = () => {
     }
     
     const handleCreateAccount = async () => {
-        const res = await axios.post("http://localhost:4000/user/create", {
+        await axios.post("http://localhost:4000/user/create", {
             usern: username.toLowerCase(),
             passw: password
         })
@@ -77,7 +77,6 @@ const NavBar = () => {
 
     const handleLogout = async () => {
         if(localStorage.getItem('user')) localStorage.removeItem('user')
-        location.reload()
     }
 
     useEffect(() => {
