@@ -6,23 +6,25 @@
   font-family: 'Roboto', sans-serif;
 }
 
-.settingsCog:hover, .account:hover {
+.account:hover {
   cursor: pointer;
 }
 
 .navItem:hover {
   cursor: pointer;
-  color: white;
+  color: rgb(76, 76, 250);
 }
 
 .navItem {
   width: 100%;
+  font-size: large;
+  color: white;
+  margin: 5% 0;
 }
 
 .messageContainer {
   width: 85vw;
   height: 100vh;
-  border-left: 5px solid black;
   display: flex;
   flex-direction: column;
   padding: 2% 0;
@@ -41,17 +43,27 @@
 }
 
 .navBar {
-  background-color: #b02a7d;
+  background-color: #3F0E40;
   width: 15vw;
   height: 100vh;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  padding-top: 5%;
+  align-items: center;
+  box-shadow: 1px 0px 15px 2px black;
+}
+
+.roomInfo {
+  width: 90%;
+  margin-top: 10%;
 }
 
 .navBar-items {
   height: 90%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .link {
@@ -66,11 +78,24 @@
 .navBar-account {
   height: 10%;
   display: flex;
-  justify-content: space-between;
   align-items: flex-end;
+  justify-content: flex-end;
   padding: 0 .5vw;
+  width: 100%;
 }
 
 .homepage {
   display: flex;
+}
+
+.usernameNav {
+  color: white;
+  margin: 0;
+  font-size: small;
+}
+
+.divider {
+  border: 1px solid rgba(255, 255, 255, 0.767);
+  width: 95%;
+  margin: 5% 0;
 }

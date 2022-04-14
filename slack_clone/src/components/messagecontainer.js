@@ -52,11 +52,15 @@ const MessageContainer = props => {
 
     const messagesLayout = messages.map((msg, i) => (
                                 user.username === msg.username ?
-                                    <div style={Styles.messageContentContainer}>
-                                        <div key={i} style={Styles.currentUserMessage}>
+                                    <div key={i} style={Styles.messageContentContainer}>
+                                        <div style={Styles.currentUserMessage}>
+
+                                            {/* the text of the message */}
                                             <div style={Styles.messageTextLayout}>
                                                 <p style={Styles.messageText}>{msg.text}</p>
                                             </div>
+
+                                            {/* message info (name, time message was sent) */}
                                             <div style={Styles.msgInfo}>
                                                 <p style={Styles.textSpacingMsgInfo}>{msg.username}</p>
                                             </div>

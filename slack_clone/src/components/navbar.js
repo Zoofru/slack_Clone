@@ -7,7 +7,7 @@ import {io} from 'socket.io-client'
 import { UserContext } from "../userContext"
 
 const NavBar = () => {
-    const navItems = ['Home', 'Login']
+    const navItems = ['# Home', '# Announcments', '# Hangout', '# Feedback', '# Social-Media']
     const [loggedIn, setLoggedIn] = useState(false)
     const [modalOpen, setOpenModal] = useState(false)
     const [showCreateAccount, SetShowCreateAccount] = useState(false)
@@ -23,8 +23,9 @@ const NavBar = () => {
     // socket.emit('custom-event', 10, 'hi', {test: 'tube'})
 
     const Styles = {
-        icons: {
+        colorWhiteMarginZero: {
             color: 'white',
+            margin: "0"
         },
         accountIcons: {
             paddingBottom: '1.5vh',
@@ -77,6 +78,8 @@ const NavBar = () => {
 
     const handleLogout = async () => {
         if(localStorage.getItem('user')) localStorage.removeItem('user')
+        window.location.reload()
+        console.log('here')
     }
 
     useEffect(() => {
@@ -93,17 +96,24 @@ const NavBar = () => {
         }
     }, [])
 
+    const displayNavItems = navItems.map((item, i) => (
+                                <NavItem title={item} key={i}></NavItem>
+                            ))
+
     return(
         <div className="navBar">
-            { user ? <p>{user.username}</p> : null}
+
+            <div className="roomInfo">
+                <div className="roomInfoContent">
+                    <h5 style={Styles.colorWhiteMarginZero}>Slack Clone Workshop</h5>
+                    { user ? <p className="usernameNav">{user.username}</p> : <p></p>}
+                </div>
+            </div>
+
+            <div className="divider"></div>
+
             <div className="navBar-items">
-                {navItems.map((item, i) => (
-                    //if user is logged in, display Logout instead
-                    user && item === "Login" ? 
-                    <NavItem title={"Logout"} onClick={handleLogout}></NavItem>
-                    :
-                    <NavItem title={item} key={i}></NavItem>
-                ))}
+                {displayNavItems}
             </div>
 
             <div className="navBar-account">
@@ -112,15 +122,10 @@ const NavBar = () => {
                         <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
                     </svg>
                 </div>
-
-                <div className="settingsCog" style={Styles.accountIcons}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" className="bi bi-gear-fill" viewBox="0 0 16 16">
-                        <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
-                    </svg>
-                </div>
             </div>
 
 
+            {/* All modal related */}
             <Modal show={modalOpen} onHide={closeModal}>
                 <Modal.Header closeButton>
                     { showCreateAccount ? <Modal.Title>Create Account</Modal.Title> : <Modal.Title>Login</Modal.Title> }
