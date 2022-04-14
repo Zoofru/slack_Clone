@@ -75,11 +75,17 @@ const NavBar = () => {
         closeModal()
     }
 
+    const handleLogout = async () => {
+        if(localStorage.getItem('user')) localStorage.removeItem('user')
+        location.reload()
+    }
+
     useEffect(() => {
         async function getUser() {
             const res = await axios.get(`http://localhost:4000/user/${localStorage.getItem('user')}`)
             setUser(res.data.user)
         }
+        //if user is in localstorage get user data and store it
         if(localStorage.getItem('user')) {
             getUser()
             setLoggedIn(true)
@@ -93,8 +99,9 @@ const NavBar = () => {
             { user ? <p>{user.username}</p> : null}
             <div className="navBar-items">
                 {navItems.map((item, i) => (
+                    //if user is logged in, display Logout instead
                     user && item === "Login" ? 
-                    <NavItem title={"Logout"}></NavItem>
+                    <NavItem title={"Logout"} onClick={handleLogout}></NavItem>
                     :
                     <NavItem title={item} key={i}></NavItem>
                 ))}
