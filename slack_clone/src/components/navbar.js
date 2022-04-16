@@ -39,8 +39,12 @@ const NavBar = () => {
         }
     }
 
+
+
     const openLoginModal = () => setOpenModal(true)
     const closeModal = () => setOpenModal(false)
+    
+    //TODO: Change this into seperate buttons -> one login, one create account
     const createAccountSwitch = () => {
         if(showCreateAccount) {
             SetShowCreateAccount(false)
@@ -96,6 +100,7 @@ const NavBar = () => {
         }
     }, [])
 
+    // display all items in navItems
     const displayNavItems = navItems.map((item, i) => (
                                 <NavItem title={item} key={i}></NavItem>
                             ))

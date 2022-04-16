@@ -95,7 +95,7 @@
 }
 
 .divider {
-  border: 1px solid rgba(255, 255, 255, 0.767);
+  border: .5px solid rgba(255, 255, 255, 0.767);
   width: 95%;
   margin: 5% 0;
 }
