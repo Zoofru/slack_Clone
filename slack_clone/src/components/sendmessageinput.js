@@ -13,8 +13,6 @@ const SendMessageInput = props => {
             user: user.username,
             roomid: props.roomid
         })
-        console.log(res);
-
         setMessageValue('')
     }
 

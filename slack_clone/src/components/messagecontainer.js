@@ -15,7 +15,6 @@ const MessageContainer = props => {
             setMessages(res.data)
         }
         getAllMessages()
-        console.log(messages)
     }, [])
 
     const Styles = {
