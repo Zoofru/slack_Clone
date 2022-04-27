@@ -1,10 +1,14 @@
 
 import { useState, useContext, useEffect } from "react"
 import NavItem from "./navitem"
-import { Modal, Button } from 'react-bootstrap'
+import { Modal } from 'react-bootstrap'
 import axios from 'axios'
 import {io} from 'socket.io-client'
 import { UserContext } from "../userContext"
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+
 
 const NavBar = () => {
     const navItems = ['# Home', '# Announcments', '# Hangout', '# Feedback', '# Social-Media']
@@ -14,6 +18,15 @@ const NavBar = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const {user, setUser} = useContext(UserContext)
+
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
 
     const socket = io('http://localhost:8080')
     socket.on('connect', () => {
@@ -36,6 +49,9 @@ const NavBar = () => {
         marginTop: {
             marginTop: '2vh',
             marginBottom: '0'
+        },
+        widthhundred: {
+            width: '100%'
         }
     }
 
@@ -102,8 +118,8 @@ const NavBar = () => {
 
     // display all items in navItems
     const displayNavItems = navItems.map((item, i) => (
-                                <NavItem title={item} key={i}></NavItem>
-                            ))
+        <NavItem title={item} key={i}></NavItem>
+    ))
 
     return(
         <div className="navBar">
@@ -123,15 +139,43 @@ const NavBar = () => {
 
             <div className="navBar-account">
                 <div className="account" style={Styles.accountIcons} onClick={openLoginModal}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" className="bi bi-person-fill" viewBox="0 0 16 16">
-                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                    </svg>
+                    <Button
+                        id="basic-button"
+                        aria-controls={open ? 'basic-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={handleClick}
+                        style={Styles.widthhundred}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" className="bi bi-person-fill" viewBox="0 0 16 16">
+                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                        </svg>
+                    </Button>
                 </div>
             </div>
 
+            <div>
+                <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                    }}
+                >
+                    {user ? <MenuItem onClick={handleClose}>Profile</MenuItem> : null }
+                    { user ? <MenuItem onClick={handleClose}>My account</MenuItem>  : null }
+                    { user ? <MenuItem onClick={handleClose}>Logout</MenuItem> : null }
+                    {!user ? <MenuItem onClick={handleClose}>Login</MenuItem> : null}
+                    {!user ? <MenuItem onClick={handleClose}>Signup</MenuItem> : null}
+                </Menu>
+            </div>
+
+
 
             {/* All modal related */}
-            <Modal show={modalOpen} onHide={closeModal}>
+            {/* <Modal show={modalOpen} onHide={closeModal}>
                 <Modal.Header closeButton>
                     { showCreateAccount ? <Modal.Title>Create Account</Modal.Title> : <Modal.Title>Login</Modal.Title> }
                 </Modal.Header>
@@ -165,7 +209,7 @@ const NavBar = () => {
                         </Button>
                     }
                 </Modal.Footer>
-            </Modal>
+            </Modal> */}
         </div>
     )
 }
