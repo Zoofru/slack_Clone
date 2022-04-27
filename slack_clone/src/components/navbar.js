@@ -12,7 +12,6 @@ import MenuItem from '@mui/material/MenuItem';
 
 const NavBar = () => {
     const navItems = ['# Home', '# Announcments', '# Hangout', '# Feedback', '# Social-Media']
-    const [loggedIn, setLoggedIn] = useState(false)
     const [modalOpen, setOpenModal] = useState(false)
     const [showCreateAccount, SetShowCreateAccount] = useState(false)
     const [username, setUsername] = useState("")
@@ -77,7 +76,6 @@ const NavBar = () => {
 
         if(res.data.user) {
             localStorage.setItem('user', res.data.user.id);
-            setLoggedIn(true)
             setUser(res.data.user)
         }
         setUsername("")
@@ -110,9 +108,6 @@ const NavBar = () => {
         //if user is in localstorage get user data and store it
         if(localStorage.getItem('user')) {
             getUser()
-            setLoggedIn(true)
-        } else {
-            setLoggedIn(false)
         }
     }, [])
 
@@ -138,7 +133,7 @@ const NavBar = () => {
             </div>
 
             <div className="navBar-account">
-                <div className="account" style={Styles.accountIcons} onClick={openLoginModal}>
+                <div className="account" style={Styles.accountIcons}>
                     <Button
                         id="basic-button"
                         aria-controls={open ? 'basic-menu' : undefined}
@@ -166,16 +161,16 @@ const NavBar = () => {
                 >
                     {user ? <MenuItem onClick={handleClose}>Profile</MenuItem> : null }
                     { user ? <MenuItem onClick={handleClose}>My account</MenuItem>  : null }
-                    { user ? <MenuItem onClick={handleClose}>Logout</MenuItem> : null }
-                    {!user ? <MenuItem onClick={handleClose}>Login</MenuItem> : null}
-                    {!user ? <MenuItem onClick={handleClose}>Signup</MenuItem> : null}
+                    { user ? <MenuItem onClick={handleLogout}>Logout</MenuItem> : null }
+                    {!user ? <MenuItem onClick={openLoginModal}>Login</MenuItem> : null}
+                    {!user ? <MenuItem onClick={openLoginModal}>Signup</MenuItem> : null}
                 </Menu>
             </div>
 
 
 
             {/* All modal related */}
-            {/* <Modal show={modalOpen} onHide={closeModal}>
+            <Modal show={modalOpen} onHide={closeModal}>
                 <Modal.Header closeButton>
                     { showCreateAccount ? <Modal.Title>Create Account</Modal.Title> : <Modal.Title>Login</Modal.Title> }
                 </Modal.Header>
@@ -209,7 +204,7 @@ const NavBar = () => {
                         </Button>
                     }
                 </Modal.Footer>
-            </Modal> */}
+            </Modal>
         </div>
     )
 }
