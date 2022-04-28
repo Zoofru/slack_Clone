@@ -8,10 +8,11 @@ import { UserContext } from "../userContext"
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { Link } from 'react-router-dom'
 
 
 const NavBar = () => {
-    const navItems = ['# Home', '# Announcments', '# Hangout', '# Feedback', '# Social-Media']
+    const navItems = ['# Home', '# Announcement', '# Hangout', '# Feedback', '# Social-Media']
     const [modalOpen, setOpenModal] = useState(false)
     const [showCreateAccount, SetShowCreateAccount] = useState(false)
     const [username, setUsername] = useState("")
@@ -112,9 +113,10 @@ const NavBar = () => {
     }, [])
 
     // display all items in navItems
-    const displayNavItems = navItems.map((item, i) => (
-        <NavItem title={item} key={i}></NavItem>
-    ))
+    const displayNavItems = navItems.map((item, i) => {
+        let itemNameWithoutHashtag = item.split(' ')[1]
+        return (<NavItem title={item} linkTo={itemNameWithoutHashtag} key={i}></NavItem>)
+    })
 
     return(
         <div className="navBar">
